@@ -1,0 +1,16 @@
+.stats {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgb(99, 99, 99);
+}
+
+.statsOption {
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+
+.statsOptionCount {
+  margin-bottom: 5px;
+  color: rgb(140, 140, 140);
+}
