@@ -1,9 +1,7 @@
-//import options from './data/options.json';
 import css from './FeedbackOptions.module.css';
 import PropTypes from 'prop-types';
 
-const FeedbackOptions = ({options, onLeaveFeedback}) => {
-  //const options = ['good', 'neutral', 'bad'];
+const FeedbackOptions = ({ options, onLeaveFeedback }) => {
   return (
     <div className={css.buttons}>
       {options.map(option => (

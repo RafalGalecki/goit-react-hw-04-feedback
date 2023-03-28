@@ -1,10 +1,8 @@
-//import { Component } from 'react';
 import { useState } from 'react';
-import options from '../data/options.json';
 import Section from './Section/Section';
 import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
 import Statistics from './Statisctics/Statisctics';
-import { Notification } from './Notification/Notification';
+import Notification from './Notification/Notification';
 import PropTypes from 'prop-types';
 
 const INITIAL_STATS = {
@@ -29,20 +27,18 @@ export const App = () => {
       : 'There is no good feedback yet.';
   };
 
-  //const { good, neutral, bad } = this.state;
-
   return (
     <div>
       <Section title="Please leave feedback">
         <FeedbackOptions
-          options={options}
+          options={Object.keys(stats).splice(0, 3)}
           onLeaveFeedback={option => handleClick(option)}
         />
       </Section>
       <Section title="Statistics">
         {stats.total > 0 ? (
           <Statistics
-            options={options}
+            //options={options}
             good={stats.good}
             neutral={stats.neutral}
             bad={stats.bad}

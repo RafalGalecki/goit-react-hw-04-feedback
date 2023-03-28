@@ -1,9 +1,13 @@
-//import { Component } from 'react';
 import css from './Statistics.module.css';
 import PropTypes from 'prop-types';
 
-const Statistics = ({ good, neutral, bad, total, positiveFeedbackPercentage }) => {
-  
+const Statistics = ({
+  good,
+  neutral,
+  bad,
+  total,
+  positiveFeedbackPercentage,
+}) => {
   return (
     <div className={css.stats}>
       <p className={css.statsOption}>good: {good}</p>
@@ -18,7 +22,9 @@ const Statistics = ({ good, neutral, bad, total, positiveFeedbackPercentage }) =
 };
 
 Statistics.propTypes = {
-  //options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  good: PropTypes.number.isRequired,
+  neutral: PropTypes.number.isRequired,
+  bad: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   positiveFeedbackPercentage: PropTypes.oneOfType([
     PropTypes.number,
