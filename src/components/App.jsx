@@ -1,4 +1,5 @@
-import { Component } from 'react';
+//import { Component } from 'react';
+import { useState } from 'react';
 import options from '../data/options.json';
 import Section from './Section/Section';
 import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
@@ -6,73 +7,55 @@ import Statistics from './Statisctics/Statisctics';
 import { Notification } from './Notification/Notification';
 import PropTypes from 'prop-types';
 
-export class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+const INITIAL_STATS = {
+  good: 0,
+  neutral: 0,
+  bad: 0,
+  total: 0,
+};
+
+export const App = () => {
+  const [stats, setStats] = useState(INITIAL_STATS);
+
+  const handleClick = option => {
+    stats[option] = stats[option] + 1;
+    stats.total += 1;
+    setStats({ ...stats });
   };
 
-  onLeaveFeedback = event => {
-    if (event.target.textContent === 'good') {
-      this.setState({ good: this.state.good + 1 });
-    }
-    if (event.target.textContent === 'neutral') {
-      this.setState({ neutral: this.state.neutral + 1 });
-    }
-    if (event.target.textContent === 'bad') {
-      this.setState({ bad: this.state.bad + 1 });
-    }
+  const countPositiveFeedbackPercentage = () => {
+    return stats.good > 0
+      ? Math.round((stats.good / stats.total) * 100) + '%'
+      : 'There is no good feedback yet.';
   };
 
-  countTotal = () => {
-    const { good, neutral, bad } = this.state;
-    const total = Number(good + neutral + bad);
-    return total;
-  };
+  //const { good, neutral, bad } = this.state;
 
-  countPositiveFeedbackPercentage = total => {
-    const { good } = this.state;
-    const positiveFeedbackPercentage = Math.round((good / total) * 100);
-    if (good > 0) {
-      return positiveFeedbackPercentage + '%';
-    } else {
-      return 'There is no good feedback yet.';
-    }
-  };
-
-  render() {
-    const { good, neutral, bad } = this.state;
-
-    return (
-      <div>
-        <Section title="Please leave feedback">
-          <FeedbackOptions
+  return (
+    <div>
+      <Section title="Please leave feedback">
+        <FeedbackOptions
+          options={options}
+          onLeaveFeedback={option => handleClick(option)}
+        />
+      </Section>
+      <Section title="Statistics">
+        {stats.total > 0 ? (
+          <Statistics
             options={options}
-            onLeaveFeedback={this.onLeaveFeedback}
+            good={stats.good}
+            neutral={stats.neutral}
+            bad={stats.bad}
+            total={stats.total}
+            positiveFeedbackPercentage={countPositiveFeedbackPercentage()}
           />
-        </Section>
-
-        <Section title="Statistics">
-          {this.countTotal() > 0 ? (
-            <Statistics
-              options={options}
-              good={good}
-              neutral={neutral}
-              bad={bad}
-              total={this.countTotal()}
-              positiveFeedbackPercentage={this.countPositiveFeedbackPercentage(
-                this.countTotal()
-              )}
-            />
-          ) : (
-            <Notification message="There is no feedback." />
-          )}
-        </Section>
-      </div>
-    );
-  }
-}
+        ) : (
+          <Notification message="There is no feedback." />
+        )}
+      </Section>
+    </div>
+  );
+};
 
 App.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string),
